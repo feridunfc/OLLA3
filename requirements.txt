@@ -1,0 +1,7 @@
+cryptography>=41.0
+fastapi>=0.104
+uvicorn[standard]>=0.24
+prometheus-client>=0.19
+docker>=6.1
+pyjwt>=2.8
+pydantic>=2.5

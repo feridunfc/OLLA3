@@ -1,0 +1,158 @@
+﻿{
+  "dashboard": {
+    "id": null,
+    "title": "OLLA2 AI Agent Metrics",
+    "tags": ["olla2", "ai", "agents", "monitoring"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Agent Execution Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "olla2_agent_success_rate",
+            "refId": "A",
+            "legendFormat": "{{agent_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": null},
+                {"color": "yellow", "value": 80},
+                {"color": "green", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Agent Executions (Last 5m)",
+        "type": "barchart",
+        "targets": [
+          {
+            "expr": "rate(olla2_agent_executions_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{agent_type}} - {{status}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Active Agents",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "olla2_active_agents",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8},
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 10,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 5},
+                {"color": "red", "value": 8}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "LLM Calls by Provider",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "rate(olla2_llm_calls_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{provider}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "LLM Token Usage",
+        "type": "barchart",
+        "targets": [
+          {
+            "expr": "rate(olla2_llm_tokens_total[5m])",
+            "refId": "A",
+            "legendFormat": "{{provider}} - {{type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 8}
+      },
+      {
+        "id": 6,
+        "title": "Agent Execution Duration",
+        "type": "histogram",
+        "targets": [
+          {
+            "expr": "olla2_agent_execution_duration_seconds",
+            "refId": "A",
+            "legendFormat": "{{agent_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "Queue Size",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "olla2_queue_size",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 16},
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 5},
+                {"color": "red", "value": 10}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Sprints Completed",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "olla2_sprints_completed_total",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 16},
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "continuous-BlPu"}
+          }
+        }
+      }
+    ],
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "refresh": "10s"
+  }
+}

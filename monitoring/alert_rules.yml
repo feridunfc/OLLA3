@@ -1,0 +1,74 @@
+﻿groups:
+  - name: olla2_agent_alerts
+    rules:
+      - alert: HighAgentErrorRate
+        expr: rate(olla2_agent_executions_total{status="error"}[5m]) / rate(olla2_agent_executions_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+          service: olla2
+        annotations:
+          summary: "High error rate for OLLA2 agents"
+          description: "Agent error rate is {{  | humanizePercentage }} (threshold: 10%)"
+      
+      - alert: AgentSuccessRateLow
+        expr: olla2_agent_success_rate < 80
+        for: 5m
+        labels:
+          severity: warning
+          service: olla2
+        annotations:
+          summary: "Low success rate for OLLA2 agent {{ .agent_type }}"
+          description: "Agent {{ .agent_type }} success rate is {{  }}% (threshold: 80%)"
+      
+      - alert: HighLLMFailureRate
+        expr: rate(olla2_llm_calls_total{status="error"}[5m]) / rate(olla2_llm_calls_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          service: olla2
+        annotations:
+          summary: "High LLM API failure rate"
+          description: "LLM API failure rate is {{  | humanizePercentage }} for {{ .provider }}"
+      
+      - alert: QueueBacklog
+        expr: olla2_queue_size > 10
+        for: 3m
+        labels:
+          severity: warning
+          service: olla2
+        annotations:
+          summary: "High task queue backlog"
+          description: "Task queue size is {{  }} (threshold: 10)"
+      
+      - alert: NoActiveAgents
+        expr: olla2_active_agents == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: olla2
+        annotations:
+          summary: "No active agents running"
+          description: "There are no active OLLA2 agents processing tasks"
+
+  - name: olla2_system_alerts
+    rules:
+      - alert: OLLA2AppDown
+        expr: up{job="olla2-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: olla2
+        annotations:
+          summary: "OLLA2 application is down"
+          description: "The OLLA2 application has been down for more than 1 minute"
+      
+      - alert: HighMemoryUsage
+        expr: olla2_memory_usage_bytes > 1e9  # 1GB
+        for: 2m
+        labels:
+          severity: warning
+          service: olla2
+        annotations:
+          summary: "High memory usage"
+          description: "OLLA2 memory usage is {{  | humanize }} bytes"

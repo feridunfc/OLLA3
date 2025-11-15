@@ -1,0 +1,4 @@
+﻿alerts:
+  - name: "SandboxEscapeAttempt"
+    condition: "sandbox_violation_count > 0"
+    severity: "critical"

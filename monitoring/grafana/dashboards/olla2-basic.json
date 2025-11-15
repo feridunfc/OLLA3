@@ -1,0 +1,1 @@
+﻿{"dashboard":{"title":"OLLA2 Basic","panels":[{"targets":[{"expr":"up{job=\"olla2-app\"}"}]}]}}

@@ -1,0 +1,90 @@
+﻿{
+  "dashboard": {
+    "id": null,
+    "title": "OLLA2 Business Intelligence",
+    "tags": ["olla2", "business", "sprint", "pr"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Sprint Completion Trend",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(olla2_sprints_completed_total[1h])",
+            "refId": "A",
+            "legendFormat": "Sprints/Hour"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "PR Reviews Processed",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "olla2_pr_reviews_total",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"}
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Code Changes Suggested",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "olla2_code_changes_total",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Agent Performance Overview",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "olla2_agent_success_rate",
+            "refId": "A",
+            "format": "table"
+          }
+        ],
+        "gridPos": {"h": 10, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "LLM Provider Efficiency",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "rate(olla2_llm_calls_total{status=\"success\"}[5m]) / rate(olla2_llm_calls_total[5m]) * 100",
+            "refId": "A",
+            "legendFormat": "{{provider}} Success Rate"
+          }
+        ],
+        "gridPos": {"h": 10, "w": 12, "x": 12, "y": 8},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100
+          }
+        }
+      }
+    ],
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}
